@@ -1,6 +1,7 @@
 {
   "name": "mobx_react_bug",
   "version": "0.1.0",
+  "homepage": "https://d3ce1t.github.io/MobxTest",
   "private": true,
   "dependencies": {
     "mobx": "^3.1.5",
