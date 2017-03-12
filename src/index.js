@@ -17,13 +17,17 @@ class Store {
     { id: 9, name: 'test 9', new: false },
     { id: 10, name: 'test 10', new: false },
   ];
+  @observable returnObservable = true;
   @observable filter = false;
   @observable sort = false;
 
   @computed get filtered() {
     var filtered = this.items;
     if (this.filter) {
-      filtered = observable(this.items.filter( item => item.new ));
+      filtered = this.items.filter( item => item.new );
+      if (this.returnObservable) {
+        filtered = observable(filtered);
+      }
     }
     console.log('Compute filtered', filtered);
     return filtered;
@@ -32,14 +36,17 @@ class Store {
   @computed get sorted() {
     var sorted = this.filtered;
     if (this.sort) {
-      sorted = observable(this.filtered.sort((a, b) => {
+      sorted = this.filtered.sort((a, b) => {
         if (a.name < b.name) {
           return 1;
         } else if (a.name > b.name) {
           return -1;
         }
         return 0;
-      }));
+      });
+      if (this.returnObservable) {
+        sorted = observable(sorted);
+      }
     }
     console.log('Compute sorted', sorted);
     return sorted;
@@ -50,6 +57,9 @@ class Store {
   }
   @action toggleFiltered() {
   	this.filter = !this.filter;
+  }
+  @action toggleTest() {
+    this.returnObservable = !this.returnObservable;
   }
 }
 
@@ -64,6 +74,9 @@ class App extends React.Component {
   filterHandler() {
   	store.toggleFiltered();
   }
+  changeHandler() {
+    store.toggleTest();
+  }
   render() {
     const sorted = store.sorted.map( item => <li key={item.id}>{item.name}</li>);
     const filtered = store.filtered.map( item => <li key={item.id}>{item.name}</li>);
@@ -71,6 +84,7 @@ class App extends React.Component {
       <div>
         <button onClick={this.filterHandler}>Toggle Filter: {store.filter ? 'true' : 'false'}</button>
         <button onClick={this.sortHandler}>Toggle Sort: {store.sort ? 'true' : 'false'}</button>
+        <input type="checkbox" onChange={this.changeHandler} checked={store.returnObservable}/>Return observable
         <h3>Filtered</h3>
         <ul>{filtered}</ul>
         <h3>Sorted</h3>
