@@ -30,8 +30,10 @@
         <li><strong>Why this example doesn't work when computed values return an Array?</strong></li>
       </ol>
     </p>
+    <p><strong>UPDATE: It was my mistake. I employed Array.sort() which performs in-place sorting. Due to this, cache of filtered computed value was being modified.</strong></p>
     <div id="root"></div>
-    <h3>Source Code: <a href="https://github.com/d3ce1t/MobxTest/blob/master/src/index.js">https://github.com/d3ce1t/MobxTest/blob/master/src/index.js</a></h3>
+    <h3><a href="https://github.com/d3ce1t/MobxTest/blob/master/src/index.js">Source code</a></h3>
+    <h3><a href="https://github.com/mobxjs/mobx/issues/883">Github issue</a></h3>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

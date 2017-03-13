@@ -17,7 +17,7 @@ class Store {
     { id: 9, name: 'test 9', new: false },
     { id: 10, name: 'test 10', new: false },
   ];
-  @observable returnObservable = true;
+  @observable returnObservable = false;
   @observable filter = false;
   @observable sort = false;
 
@@ -36,7 +36,7 @@ class Store {
   @computed get sorted() {
     var sorted = this.filtered;
     if (this.sort) {
-      sorted = this.filtered.sort((a, b) => {
+      sorted = this.filtered.slice().sort((a, b) => {
         if (a.name < b.name) {
           return 1;
         } else if (a.name > b.name) {
